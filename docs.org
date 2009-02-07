@@ -1,0 +1,44 @@
+* Terms
+** Nomad
+   A connection that hasn't logged into the system yet.
+** Player
+   A connection that has logged in and is assoiceated with a
+   Charicter
+** Thing
+   Anything that is tangible in the world 
+*** Item
+    A inanimate object
+*** Mobile
+    A moving thing (creature of some kind)
+    possible living, but could be somthing like a construct ect.
+**** Charicter
+     An importent Mobile. Usualy either an NPC or a PC
+***** NPC
+      A mobile controled by an AI (more importent then a regular mobile)
+***** PC
+      A mobile controled by a Player.
+** Room
+    A place in the world, of varying size
+** Contents
+   The stuff within a Thing (usualy a list or vector)
+** Direction
+   The name that is used as a command to leave one room to another.
+** Desc(ription)
+   A Full description of an item (detailed)
+** Short (Description)
+   The breaf description, usualy only a few words. Used as the noun
+   for the item in command output
+** Long (Description)
+   A single line of description, used for when the item is
+   viewed. Will have position attached on to the end.
+** Position
+   A phrase to describe how something is in a place. (On the desk,
+   standing by the pool etc.) Appended to the end of a long
+   description when viewed in a room.
+
+** Use
+   The Primary fuction of a thing. 
+** VNum
+   A unique number used to describe a thing or room
+** TODO VName
+   A (namespace qualified?) word or phrase used to identify a vnum
