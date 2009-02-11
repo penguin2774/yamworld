@@ -59,7 +59,10 @@
   (fn [room thing & args]
     (:type room)))
 
-(defmethod leave-room :yamworld.world/room
+;; probably should tell the room.
+;;(defmethod leave-room (type :room) [room thing & args])
+  
+  
 
 (defmulti enter-room
   "Called when something enters a room"

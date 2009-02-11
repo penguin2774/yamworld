@@ -1,0 +1,9 @@
+* Server
+#+SEQ_TODO: PLANNED(p) WORKING(w) HOLD(h@/!) | DONE(d!) CANCELED(c@)
+** Login system
+*** DONE Player files
+    - State "DONE"       [2009-02-09 Mon 16:01]
+*** PLANNED Password has
+** Area files
+** Command Parser
+** 

@@ -5,8 +5,6 @@
 
 (def things (ref {}))
 
-
-
 (defn vnum? [data]
   "Tests data and returns true if data is a vnum."
   (integer? data))
@@ -20,7 +18,7 @@
 
 (defn thing? [data]
   "Tests data and returns true if data is a thing."
-  (and (map? data) (isa? (:type data) :yamworld.types/thing)))
+  (and (map? data) (isa? (:type data) (type :thing))))
 
 (def-clobber-fn thing [data]
   (thing? data)
@@ -28,10 +26,9 @@
   (and (integer? data) (contains? @things data))
   (@things data))
 
-
 (defn mobile? [data]
   "Tests data and returns true if data is a mobile."
-  (and (map? data) (isa? (:type data) :yamworld.types/mobile)))
+  (and (map? data) (isa? (:type data) :mobile)))
 
 (def-clobber-fn mobile [data]
   (mobile? data)
@@ -41,7 +38,7 @@
 
 (defn item? [data]
   "Tests data and returns true if data is a item."
-  (and (map? data) (isa? (:type data) :yamworld.types/item)))
+  (and (map? data) (isa? (:type data) :item)))
 
 (def-clobber-fn item [data]
   (item? data)
@@ -54,6 +51,7 @@
    (ref-set things (assoc vnum new-thing))))
 
 (defn add-thing [vnum new-thing]
+  (assert (thing? new-thing))
   (change-thing vnum new-thing)) ;; Shh! Don't tell!
 
 (defn delete-thing 
@@ -68,7 +66,7 @@
 
 (defn room? [data]
   "Tests data and returns true if data is a room."
-  (and (map? data) (isa? (:type data) :yamworld.types/room)))
+  (and (map? data) (isa? (:type data) (type :room))))
 
 (def-clobber-fn room [data]
   (room? data)
@@ -82,6 +80,7 @@
    (ref-set rooms (assoc vnum new-room))))
 
 (defn add-room [vnum new-room]
+  (assert (room? new-room))
   (change-room vnum new-room))
 
 (defn delete-room
@@ -91,3 +90,9 @@
   ([vnum & vnums]
      (dosync
       (ref-set rooms (apply dissoc (cons vnum vnums))))))
+
+
+
+     
+
+

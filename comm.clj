@@ -1,13 +1,15 @@
 (ns yamworld.comm
-  (:use 
-	rielib.utils
-	yamworld.nomads)
+  (:use rielib.utils)
   (:import (java.io InputStreamReader OutputStreamWriter)))
 
 
 ;; Conn[ection] - Any open sockets to the outside world.
 (defstruct conn :ins :outs)
 
+(defn disconnect 
+  "Disconnects the player."
+  [conn]
+  (.close (:ins conn)))
 
 (defn write
   "Writes a string to stream, if more arguments are supplied, format is performed first."

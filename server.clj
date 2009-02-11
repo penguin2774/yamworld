@@ -7,8 +7,9 @@
 
 
 (defn client-connection [ins outs]
-  (thread-safe 
-    (handle-nomad (struct conn (new InputStreamReader ins) (new OutputStreamWriter outs)))))
+    (thread-safe 
+      (binding [*out* (new OutputStreamWriter outs)]
+	(handle-nomad (struct conn (new InputStreamReader ins) *out*)))))
 
 
 (def server (create-server 4646 client-connection))
