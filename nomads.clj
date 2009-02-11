@@ -16,31 +16,40 @@
 
 
 (defmacro state-dialog [nomad data-name input-name initial-state & args]
-  `(let [nomad# ~nomad]
-     (with-local-vars [state-var# ~initial-state]
+  `(let [nomad# ~nomad
+	  buffer#  (new BufferedReader (:ins nomad#))]
        (try 
-	(doseq [~input-name (line-seq (new BufferedReader (:ins nomad#)))]
-	  (let [state# (if (coll? (var-get state-var#))
-			 (first (var-get state-var#))
-			 (var-get state-var#))
-		~data-name (if (coll? (var-get state-var#))
-			     (second (var-get state-var#)))]
-	    (if-let [new-state#
+	(loop [~input-name (.readLine buffer#) state-var# ~initial-state]
+	  (let [state# (if (coll? state-var#)
+			 (first state-var#)
+			 state-var#)
+		~data-name (if (coll? state-var#)
+			     (second state-var#))
+		new-state#
 		     (condp = state#
-			     ~@(mapcat (fn [[key & forms]] `(~key (do ~@forms)))  args))]
-	      (var-set state-var# new-state#))))
-	(catch IOException e#
-	  (if (= "Stream closed" (.getMessage e#))
-	    nil
-	    (throw e#)))
-	(catch RuntimeException e#
-	  (if-let [cause# (.getCause e#)]
-	    (if (and
-		 (instance? java.io.IOException cause#)
-		 (= "Stream closed"  (.getMessage cause#)))
+			      ~@(mapcat (fn [[key & forms]] `(~key (do ~@forms)))  args))]
+	      (cond 
+	       (and (coll? new-state#) 
+		    (= (first new-state#) :return))
+	       (second new-state#)
+	       (= new-state# :return)
+	       nil
+	       (nil? new-state#)
+	       (recur (.readLine buffer#) state-var#)
+	       true
+	       (recur (.readLine buffer#) new-state#))))
+	  (catch IOException e#
+	    (if (= "Stream closed" (.getMessage e#))
 	      nil
-	      (throw e#))
-	    (throw e#)))))))
+	      (throw e#)))
+	  (catch RuntimeException e#
+	    (if-let [cause# (.getCause e#)]
+	      (if (and
+		   (instance? java.io.IOException cause#)
+		   (= "Stream closed"  (.getMessage cause#)))
+		nil
+		(throw e#))
+	      (throw e#))))))
        
 
 
@@ -105,7 +114,31 @@
 	
 
 (defn create-account [nomad name]
-  (println "Also under construction"))
+  (write nomad ":passwd>")
+  (state-dialog nomad data input :choose-passwd
+    (:choose-passwd
+     (write nomad ":confirm>")
+     [:confirm-passwd {:passwd input}])
+    (:confirm-passwd
+     
+     (if (= input (:passwd data))
+       (do (println "Please provide an email.")
+	   (write nomad ":email>")
+	   [:get-email data])
+       (do (println "Passwords didn't match")
+	   (write nomad ":passwd>")
+	   :choose-passwd)))
+    (:get-email
+     (if (valid-email? input)
+       (do (println "Creating Account...")
+	   [:return (create-player name (data :password) input)])
+       (do (println "Email is invalid!")
+	   (write nomad ":email>")
+	   nil)))))
+       
+     
+
+     
 
 (defn handle-nomad [conn]
   (dosync 
