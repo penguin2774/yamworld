@@ -3,7 +3,33 @@
 ** Login system
 *** DONE Player files
     - State "DONE"       [2009-02-09 Mon 16:01]
-*** PLANNED Password has
+*** DONE Password hashing
+    - State "DONE"       [2009-02-12 Thu 10:25]
+*** DONE Account Creation
+    - State "DONE"       [2009-02-12 Thu 10:28]
+*** PLANNED Account Management [0%]
+    - [ ] Create Characters
+    - [ ] Delete Characters
+    - [ ] Show Character Status
+    - [ ] Whos online list
+    - [ ] Account status
+    - [ ] Update Account
+*** PLANNED Character Creation [0%]
+    - [ ] Select Race
+    - [ ] Select Class
+    - [ ] Place Stats
+    - [ ] Select Alignment
+    - [ ] Choose Description
+      - [ ] Age
+      - [ ] Height
+      - [ ] Weight
+      - [ ] Hair Color
+      - [ ] Hair Style
+      - [ ] Eye Color
 ** Area files
+*** PLANNED File Loading
+*** PLANNED File Saving
+*** PLANNED World construction
+** OLC System
 ** Command Parser
 ** 

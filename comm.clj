@@ -18,7 +18,8 @@
 		  (:outs outs)
 		  outs)]
        (.write outs msg)
-       (.flush outs)))
+       (.flush outs))
+     nil)
   ([outs msg & args]
      (write outs (apply format (cons msg args)))))
 
@@ -31,4 +32,3 @@
 
 
 
-  

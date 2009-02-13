@@ -13,13 +13,13 @@
 
 (defn derive-type-tree []
 	    (let [listing (tree-seq coll? seq types-tree)]
-	      (doseq [[parent & children] (take-when coll? listing)]
+	      (doseq [[parent & children] (filter coll? listing)]
 		(doseq [child children]
 		  (derive (if (coll? child)
 			    (first child)
 			    child) parent)))
-	      (zipmap (map #(keyword (name %)) (take-when keyword? listing))
-		      (take-when keyword? listing))))
+	      (zipmap (map #(keyword (name %)) (filter keyword? listing))
+		      (filter keyword? listing))))
 
 (def types (derive-type-tree))
 
